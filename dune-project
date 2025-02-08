@@ -82,6 +82,17 @@
   printbox-text))
 
 (package
+ (name gillian-py)
+ (sites
+  (share runtime))
+ (synopsis "Gillian instantiation for Python")
+ (depends
+  (gillian
+   (= :version))
+  dune-site
+  printbox-text))
+
+(package
  (name gillian-c2)
  (sites
   (share runtime))

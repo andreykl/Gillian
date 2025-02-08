@@ -1,0 +1,3 @@
+[submodule "Gillian-Py"]
+	path = Gillian-Py
+	url = git@github.com:andreykl/Gillian-Py.git

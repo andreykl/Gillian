@@ -7,7 +7,7 @@
 
 (library
  (name wParserAndCompiler)
- (libraries gillian wSyntax wUtils wSemantics dune-site)
+ (libraries gillian wSyntax wUtils wSemantics dune-site batteries)
  (preprocess
   (pps ppx_deriving.std ppx_deriving_yojson))
  (flags :standard -open WSyntax -open WUtils -open WSemantics))

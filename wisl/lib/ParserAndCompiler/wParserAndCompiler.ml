@@ -47,7 +47,12 @@ let parse_and_compile_files files =
   let f files =
     let path = List.hd files in
     let wprog = parse_file path in
-    Ok (create_compilation_result path (compile ~filepath:path wprog) wprog)
+    let r =
+      Ok (create_compilation_result path (compile ~filepath:path wprog) wprog)
+    in
+    let open Batteries in
+    let _ = Printf.printf "-----------------%s\n" (dump r) in
+    r
   in
   Logging.Phase.with_normal ~title:"Program parsing and compilation" (fun () ->
       f files)

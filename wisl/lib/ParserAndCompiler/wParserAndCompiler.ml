@@ -47,11 +47,22 @@ let parse_and_compile_files files =
   let f files =
     let path = List.hd files in
     let wprog = parse_file path in
-    let r =
-      Ok (create_compilation_result path (compile ~filepath:path wprog) wprog)
+    let prog_t = compile ~filepath:path wprog in
+    let progs = create_compilation_result path prog_t wprog in
+    let r = Ok progs in
+    let pp_annot fmt annot =
+      Fmt.pf fmt "%a"
+        (Yojson.Safe.pretty_print ?std:None)
+        (Annot.to_yojson annot)
     in
-    let open Batteries in
-    let _ = Printf.printf "-----------------%s\n" (dump r) in
+    let open Utils.Command_line_utils in
+    let _ =
+      burn_gil ~init_data:`Null
+        ~pp_prog:(Gil_syntax.Prog.pp_labeled ~pp_annot)
+        prog_t (Some "/home/andrey/tmp.gil")
+    in
+    (* let open Batteries in *)
+    (* let _ = Printf.printf "-----------------%s\n" (dump r) in *)
     r
   in
   Logging.Phase.with_normal ~title:"Program parsing and compilation" (fun () ->

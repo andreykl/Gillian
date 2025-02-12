@@ -103,10 +103,18 @@ let parse_and_compile_files paths =
     if !Javert_utils.Js_config.js then parse_and_compile_js path
     else Result.map (fun cp -> (cp, JsilSource)) (parse_and_compile_jsil path)
   in
-  Result.map
-    (fun (core_prog, tl_prog) ->
-      create_compilation_result path core_prog tl_prog)
-    progs
+  let r =
+    Result.map
+      (fun (core_prog, tl_prog) ->
+        create_compilation_result path core_prog tl_prog)
+      progs
+  in
+  let open Batteries in
+  let _ =
+    Printf.printf "-----------------------------------------------%s\n"
+      (dump (List.nth (Result.get_ok r).gil_progs 0))
+  in
+  r
 
 let other_imports = [ ("jsil", parse_and_compile_jsil) ]
 let import_paths = Javert_utils.Js_config.import_paths
